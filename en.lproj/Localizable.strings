@@ -15,13 +15,13 @@
 "service_error_bad_url" = "The URL is invalid.";
 "service_error_decoding" = "Failed to process the server response.";
 "service_error_empty_response" = "Empty server response.";
-"service_error_unknown" = "Unknown error: %d.";
-"service_error_network" = "Network error: %@.";
+"service_error_unknown" = "Unknown error";
+"service_error_network" = "Network error";
 
 
 // MARK: - Realm Repository Errors
-"realm_save_error" = "Failed to save local data: %@";
-"realm_fetch_error" = "Failed to fetch local data: %@";
+"realm_save_error" = "Failed to save local data";
+"realm_fetch_error" = "Failed to fetch local data";
 
 // MARK: - ViewModel Errors
 "generic_data_error" = "An error occurred while fetching the data.";
@@ -51,8 +51,8 @@
 // MARK: - Web View Controller
 "invalid_url_message" = "The URL is not valid.";
 "web_content_title" = "Web Content";
-"navigation_failed" = "Load failed: %@";
-"provisional_navigation_failed" = "Could not load: %@";
+"navigation_failed" = "Load failed";
+"provisional_navigation_failed" = "Could not load";
 
 // MARK: - YouTube Player View Controller
 "youtube_video_title" = "YouTube Video";
