@@ -1,0 +1,59 @@
+/* 
+  Localizable.strings
+  SpaceXInsights
+
+  Created by luisr on 03/06/25.
+  
+*/
+// MARK: - Login View
+"login_email_placeholder" = "Email";
+"login_password_placeholder" = "Password";
+"login_button_title" = "Login";
+"auth_error_empty_fields" = "Please fill in all fields";
+
+// MARK: - Service Errors
+"service_error_bad_url" = "The URL is invalid.";
+"service_error_decoding" = "Failed to process the server response.";
+"service_error_empty_response" = "Empty server response.";
+"service_error_unknown" = "Unknown error: %d.";
+"service_error_network" = "Network error: %@.";
+
+
+// MARK: - Realm Repository Errors
+"realm_save_error" = "Failed to save local data: %@";
+"realm_fetch_error" = "Failed to fetch local data: %@";
+
+// MARK: - ViewModel Errors
+"generic_data_error" = "An error occurred while fetching the data.";
+
+// MARK: - SpaceX List View Controller
+"launches_past_title" = "Launches Past";
+"spacex_nav_title" = "SpaceX";
+"error_alert_title" = "Error";
+"error_alert_button_ok" = "OK";
+"year_title" = "Year";
+"flight_number" = "Flight Number";
+
+// MARK: - SpaceX Detail View Controller
+"details_title" = "Details";
+"no_additional_info" = "No additional info available.";
+"no_images_available" = "No images available for this mission.";
+"yt_video_button" = "YouTube Video";
+"launch_info_button" = "Launch Info";
+"invalid_video_id" = "No valid video ID was received.";
+"invalid_link" = "No valid link was received.";
+"date_label" = "Date: ";
+"flight_number_label" = "Flight number: ";
+"launch_site_label" = "Site: ";
+"rocket_name_label" = "Rocket name: ";
+"rocket_type_label" = "Rocket type: ";
+
+// MARK: - Web View Controller
+"invalid_url_message" = "The URL is not valid.";
+"web_content_title" = "Web Content";
+"navigation_failed" = "Load failed: %@";
+"provisional_navigation_failed" = "Could not load: %@";
+
+// MARK: - YouTube Player View Controller
+"youtube_video_title" = "YouTube Video";
+"youtube_video_unavailable" = "The video is not available.";

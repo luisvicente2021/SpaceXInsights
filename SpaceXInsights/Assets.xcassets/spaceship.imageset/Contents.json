@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "cohete.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
