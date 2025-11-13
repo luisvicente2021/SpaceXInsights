@@ -46,7 +46,9 @@ class SpaceXListViewController: UIViewController {
     }
     
     private func setupView() {
+
         self.navigationItem.hidesBackButton = true
+ 
         view.backgroundColor = .white
         titleLabel.text = strings?.launchesPastTitle
         
