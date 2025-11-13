@@ -33,16 +33,12 @@ Animación.
 Soporte para cargar imágenes remotas con cache simple.  
 
 
-__Acceso de prueba (Firebase Auth)__  
 
-Para probar la funcionalidad de login, puedes usar las siguientes credenciales de prueba que fueron creadas en Firebase:  
-📧 Email: paco@gmail.com  
-🔒 Contraseña: paco2025  
 
 
 __Cómo correr el proyecto__  
 
-Clonar el repositorio: git clone https://github.com/tu-usuario/tu-repositorio.git  
+Clonar el repositorio: git clone https://github.com/luisvicente2021/SpaceXInsights
 Abrir el proyecto en Xcode.  
 Xcode descargará automáticamente las dependencias de Swift Package Manager.  
 Construir y ejecutar en simulador o dispositivo.  
