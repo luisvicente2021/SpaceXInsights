@@ -5,6 +5,7 @@
 //  Created by luisr on 02/06/25.
 //
 
+
 import Foundation
 import UIKit
 import SwiftUI
@@ -24,19 +25,33 @@ final class MainCoordinator: Coordinator {
     }
     
     func start() {
-        let authViewModel = AuthViewModel()
-        let loginView = LoginView(viewModel: authViewModel, onLoginSuccess: { [weak self] in
-            DispatchQueue.main.async {
-                self?.showMainApp()
-            }
-        })
+        let repository: LoginRepository = LoginUserRepository()
+        let useCase: LoginUserUseCase = LoginUserUseCase(repository: repository)
+        let loginViewModel = LoginViewModel(useCase: LoginUserUseCase(repository: LoginUserRepository()))
         
+        loginViewModel.onLoginSuccess = { [weak self] in
+            print("oka")
+            
+            Task { await self?.showMainApp() }
+            
+        }
+        
+        let loginView = LoginView(viewModel: loginViewModel)
         let hostingController = UIHostingController(rootView: loginView)
         navigationController.setViewControllers([hostingController], animated: false)
+            }
+    
+    @MainActor
+    func makeViewModel() -> DashboardViewModel {
+        let repository: DashboardRepository = DashboardRepositoryImp()
+        let useCase: FetchDashboardItemsUseCase = FetchDashboardItemsUseCase(repository: repository)
+        return DashboardViewModel(fetchUseCase: useCase)
     }
     
-    func showMainApp() {
-        let mainVC = SpaceXListViewController()
+    
+    @MainActor func showMainApp() {
+    
+     let mainVC = SpaceXListViewController(viewModel: makeViewModel())
         mainVC.delegate = self
         mainVC.strings = strings
         navigationController.pushViewController(mainVC, animated: true)
@@ -45,12 +60,14 @@ final class MainCoordinator: Coordinator {
 
 extension MainCoordinator: SpaceXListViewControllerDelegate {
     
-    func didSelectMission(_ model: SpaceXModel) {
+    func didSelectMission(_ model: DTODetails) {
         let detailVC = SpaceXDetailViewController(model: model)
         detailVC.delegate = self
         navigationController.pushViewController(detailVC, animated: true)
     }
+   
 }
+
 
 extension MainCoordinator: SpaceXDetailViewControllerDelegate {
     
@@ -66,3 +83,4 @@ extension MainCoordinator: SpaceXDetailViewControllerDelegate {
         navigationController.pushViewController(webVC, animated: true)
     }
 }
+

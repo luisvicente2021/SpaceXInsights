@@ -137,37 +137,41 @@ final class SpaceXCell: UITableViewCell {
         ])
     }
     
-    func configure(with model: SpaceXModel) {
-        nameLabel.text = model.mission_name
-        yearLabel.text = "\(strings.year_title) \(model.launch_year)"
-        rocketLabel.text = "\(strings.flight_number) \(model.flight_number)"
-        
-        loadImage(from: model.links.missionPatchSmall)
+    func configure(with model: LaunchViewData) {
+        nameLabel.text = model.missionName
+        yearLabel.text = model.details
+        rocketLabel.text = "\(model.id)"
+        loadImage(from: model.missionPatch)
     }
-    
+
     private func loadImage(from urlString: String?) {
+        // Reiniciamos la imagen y mostramos el indicador
         iconImageView.image = nil
         activityIndicator.startAnimating()
         
         guard let urlString = urlString, let url = URL(string: urlString) else {
+            // Si no hay URL válida, mostramos icono de fallback
             activityIndicator.stopAnimating()
-            iconImageView.image = UIImage(systemName: rocket)
+            iconImageView.image = UIImage(systemName: "rocket")
             return
         }
-        
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            if let data = try? Data(contentsOf: url),
-               let image = UIImage(data: data) {
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
+
+        // Descarga de la imagen de manera segura
+        let task = URLSession.shared.dataTask(with: url) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                self?.activityIndicator.stopAnimating()
+                
+                if let data = data, let image = UIImage(data: data) {
                     self?.iconImageView.image = image
-                }
-            } else {
-                DispatchQueue.main.async {
-                    self?.activityIndicator.stopAnimating()
-                    self?.iconImageView.image = UIImage(systemName: self?.rocket ?? "rocket")
+                } else {
+                    // fallback si la descarga falla
+                    self?.iconImageView.image = UIImage(systemName: "rocket")
+                    print("Error cargando imagen: \(error?.localizedDescription ?? "desconocido")")
                 }
             }
         }
+        
+        task.resume()
     }
+
 }

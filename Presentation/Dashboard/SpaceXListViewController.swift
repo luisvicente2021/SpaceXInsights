@@ -8,17 +8,26 @@
 import UIKit
 
 protocol SpaceXListViewControllerDelegate: AnyObject {
-    func didSelectMission(_ model: SpaceXModel)
+    func didSelectMission(_ model: DTODetails)
 }
 
 class SpaceXListViewController: UIViewController {
     weak var delegate: SpaceXListViewControllerDelegate?
     
     private let tableView = UITableView()
-    private var viewModel = SpaceXViewModel(service: ServiceSpaceX())
-    private var items: [SpaceXModel] = []
-    var onMissionSelected: ((SpaceXModel) -> Void)?
+    private var viewModel: DashboardViewModel
+    private var items: [LaunchViewData] = []
+    var onMissionSelected: ((LaunchViewData) -> Void)?
     var strings: Strings?
+    
+    init (viewModel: DashboardViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil) // ✅ llamas al init de UIViewController
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     private let titleLabel: UILabel = {
         let label = UILabel()
@@ -37,6 +46,7 @@ class SpaceXListViewController: UIViewController {
     }
     
     private func setupView() {
+        self.navigationItem.hidesBackButton = true
         view.backgroundColor = .white
         titleLabel.text = strings?.launchesPastTitle
         
@@ -87,12 +97,13 @@ class SpaceXListViewController: UIViewController {
     }
     
     private func fetchData() {
-        viewModel.fetchSpaceShips { [weak self] items in
-            self?.items = items
-            self?.tableView.reloadData()
-        } failure: { [weak self] errorMessage in
-            self?.showAlert(message: errorMessage)
-        }
+        Task {
+                await viewModel.loadLaunches()
+                await MainActor.run {
+                    self.items = viewModel.launches
+                    self.tableView.reloadData()
+                }
+            }
     }
 }
 
@@ -115,6 +126,16 @@ extension SpaceXListViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selected = items[indexPath.row]
-        delegate?.didSelectMission(selected)
+        
+        let dtoDetails = DTODetails(
+            flightNumber: "\(selected.id)",
+            launchSiteText: selected.details,
+            launchSiteName: selected.missionName,
+            rocketName: selected.missionName,
+            rocketType: selected.missionPatch ?? "missionpatch",
+            flickrImages: [],
+            youtubeID: "youtiube",
+            articleLink: "articvle link")
+        delegate?.didSelectMission(dtoDetails)
     }
 }

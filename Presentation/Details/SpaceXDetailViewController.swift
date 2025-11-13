@@ -17,7 +17,7 @@ protocol SpaceXDetailViewControllerDelegate: AnyObject {
 final class SpaceXDetailViewController: UIViewController {
     
     weak var delegate: SpaceXDetailViewControllerDelegate?
-    private let model: SpaceXModel
+    private let model: DTODetails
     
     private let scrollView = UIScrollView()
     private let contentView = UIView()
@@ -37,7 +37,7 @@ final class SpaceXDetailViewController: UIViewController {
     var onOpenArticle: ((String) -> Void)?
     var strings = Strings()
     
-    init(model: SpaceXModel) {
+    init(model: DTODetails) {
         self.model = model
         super.init(nibName: nil, bundle: nil)
     }
@@ -55,7 +55,7 @@ final class SpaceXDetailViewController: UIViewController {
     
     private func setupUI() {
         view.backgroundColor = .white
-        title = model.mission_name
+        title = model.launchSiteName
         
         setupScrollView()
         setupLabels()
@@ -69,10 +69,10 @@ final class SpaceXDetailViewController: UIViewController {
     private func configureUI() {
         
         titleLabel.text = strings.details_title
-        descriptionLabel.text = model.details ??  strings.no_additional_info
+        descriptionLabel.text = model.launchSiteText
         
-        if !model.links.flickrImages.isEmpty {
-            pageControl.numberOfPages = model.links.flickrImages.count
+        if !model.flickrImages.isEmpty {
+            pageControl.numberOfPages = model.flickrImages.count
             pageControl.currentPage = 0
             pageControl.pageIndicatorTintColor = .lightGray
             pageControl.currentPageIndicatorTintColor = .black
@@ -85,6 +85,7 @@ final class SpaceXDetailViewController: UIViewController {
         actionButton2.setTitle(strings.launch_info_button, for: .normal)
         actionButton2.backgroundColor = .black
         playImageView2.tintColor = .white
+        
     }
     
     
@@ -122,11 +123,11 @@ final class SpaceXDetailViewController: UIViewController {
         contentView.addSubview(descriptionLabel)
         
         let labelTexts = [
-            "\(strings.flightNumberText) \(model.flight_number)",
-            "\(strings.dateText) \(model.launch_year)",
-            "\(strings.launchSiteText) \(model.launch_site.siteName)",
-            "\(strings.rocketNameText) \(model.rocket.rocketName)",
-            "\(strings.rocketTypeText) \(model.rocket.rocketType)"
+            "\(strings.flightNumberText) \(model.flightNumber)",
+            "\(strings.dateText) \(model.launchSiteName)",
+            "\(strings.launchSiteText) \(model.launchSiteText)",
+            "\(strings.rocketNameText) \(model.rocketName)",
+            "\(strings.rocketTypeText) \(model.rocketType)"
         ]
 
         labelTexts.forEach { text in
@@ -137,12 +138,12 @@ final class SpaceXDetailViewController: UIViewController {
             labelsStack.addArrangedSubview(label)
         }
         
-        descriptionLabel.text = model.details ?? strings.no_additional_info
-        titleLabel.text = model.mission_name
+        descriptionLabel.text = model.launchSiteText ?? strings.no_additional_info
+        titleLabel.text = model.launchSiteName
     }
     
     private func setupCollectionViewIfNeeded() {
-        guard !model.links.flickrImages.isEmpty else {
+        guard !model.flickrImages.isEmpty else {
             labelNoImages.isHidden = false
             return
         }
@@ -167,7 +168,7 @@ final class SpaceXDetailViewController: UIViewController {
         contentView.addSubview(collectionView)
         contentView.addSubview(pageControl)
         
-        pageControl.numberOfPages = model.links.flickrImages.count
+        pageControl.numberOfPages = model.flickrImages.count
         pageControl.currentPage = 0
         pageControl.pageIndicatorTintColor = .lightGray
         pageControl.currentPageIndicatorTintColor = .black
@@ -213,7 +214,7 @@ final class SpaceXDetailViewController: UIViewController {
     }
     
     @objc private func playVideo() {
-        let videoID = model.links.youtubeID.trimmingCharacters(in: .whitespacesAndNewlines)
+        let videoID = model.youtubeID.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !videoID.isEmpty else {
             showAlert(message: strings.invalidVideoID)
             return
@@ -224,7 +225,7 @@ final class SpaceXDetailViewController: UIViewController {
 
     @objc private func openLaunchInfo() {
         guard
-            let urlString = model.links.articleLink?.trimmingCharacters(in: .whitespacesAndNewlines),
+            let urlString = model.articleLink?.trimmingCharacters(in: .whitespacesAndNewlines),
             !urlString.isEmpty,
             let url = URL(string: urlString)
         else {
@@ -313,14 +314,14 @@ final class SpaceXDetailViewController: UIViewController {
 extension SpaceXDetailViewController: UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return model.links.flickrImages.count
+        return model.flickrImages.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImageCell.identifier, for: indexPath) as? ImageCell else {
             return UICollectionViewCell()
         }
-        let imageURLString = model.links.flickrImages[indexPath.item]
+        let imageURLString = model.flickrImages[indexPath.item]
         cell.configure(with: imageURLString)
         return cell
     }
@@ -333,3 +334,4 @@ extension SpaceXDetailViewController: UICollectionViewDataSource, UICollectionVi
         pageControl.currentPage = min(max(0, currentPage), pageControl.numberOfPages - 1)
     }
 }
+

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		B194716D2DEE6658002AE97B /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B194716C2DEE6658002AE97B /* Alamofire */; };
 		B19471702DEE6868002AE97B /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B194716F2DEE6868002AE97B /* RealmSwift */; };
-		B194719C2DEE980A002AE97B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = B194719B2DEE980A002AE97B /* FirebaseAuth */; };
 		B1962B702DECE4FB00BF73C6 /* YouTubeiOSPlayerHelper in Frameworks */ = {isa = PBXBuildFile; productRef = B1962B6F2DECE4FB00BF73C6 /* YouTubeiOSPlayerHelper */; };
 		B1AED6092DEEBA4F00374E8B /* UIViewController+Alerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1AED6082DEEBA4F00374E8B /* UIViewController+Alerts.swift */; };
 		B1AED60C2DEEBC6500374E8B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B1AED60A2DEEBC6500374E8B /* Localizable.strings */; };
@@ -52,9 +51,34 @@
 			path = Repository;
 			sourceTree = "<group>";
 		};
-		B19471852DEE7DD5002AE97B /* Services */ = {
+		B1A4ED6F2EC3FE16005289C0 /* Login */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = Services;
+			path = Login;
+			sourceTree = "<group>";
+		};
+		B1A4ED762EC3FE27005289C0 /* Dashboard */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		B1A4ED782EC3FE6B005289C0 /* Dasboard */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Dasboard;
+			sourceTree = "<group>";
+		};
+		B1C640082EC2CDF800E2CEE3 /* Presentation */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		B1DEE0AD2EC548D00084E1FF /* Details */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Details;
+			sourceTree = "<group>";
+		};
+		B1DEE0AF2EC5490D0084E1FF /* Details */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Details;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -67,7 +91,6 @@
 				B19471702DEE6868002AE97B /* RealmSwift in Frameworks */,
 				B1962B702DECE4FB00BF73C6 /* YouTubeiOSPlayerHelper in Frameworks */,
 				B194716D2DEE6658002AE97B /* Alamofire in Frameworks */,
-				B194719C2DEE980A002AE97B /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,11 +100,12 @@
 		B188D7C12DE9606B00BD1C4F = {
 			isa = PBXGroup;
 			children = (
-				B13EB97F2DF00B9E00FCAB63 /* Login */,
+				B1C6400A2EC2D67200E2CEE3 /* Data */,
+				B1C640082EC2CDF800E2CEE3 /* Presentation */,
+				B1C640012EC2C6D100E2CEE3 /* Domain */,
 				B1BF1AF52DEFB24E00BE6948 /* Strings.swift */,
 				B1AED60A2DEEBC6500374E8B /* Localizable.strings */,
 				B1AED6082DEEBA4F00374E8B /* UIViewController+Alerts.swift */,
-				B19471852DEE7DD5002AE97B /* Services */,
 				B194717C2DEE7DB2002AE97B /* Repository */,
 				B188D7CC2DE9606B00BD1C4F /* SpaceXInsights */,
 				B188D7CB2DE9606B00BD1C4F /* Products */,
@@ -94,6 +118,26 @@
 				B188D7CA2DE9606B00BD1C4F /* SpaceXInsights.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		B1C640012EC2C6D100E2CEE3 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				B1DEE0AF2EC5490D0084E1FF /* Details */,
+				B1A4ED782EC3FE6B005289C0 /* Dasboard */,
+				B13EB97F2DF00B9E00FCAB63 /* Login */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		B1C6400A2EC2D67200E2CEE3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				B1DEE0AD2EC548D00084E1FF /* Details */,
+				B1A4ED762EC3FE27005289C0 /* Dashboard */,
+				B1A4ED6F2EC3FE16005289C0 /* Login */,
+			);
+			path = Data;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -115,14 +159,18 @@
 				B13EB97F2DF00B9E00FCAB63 /* Login */,
 				B188D7CC2DE9606B00BD1C4F /* SpaceXInsights */,
 				B194717C2DEE7DB2002AE97B /* Repository */,
-				B19471852DEE7DD5002AE97B /* Services */,
+				B1A4ED6F2EC3FE16005289C0 /* Login */,
+				B1A4ED762EC3FE27005289C0 /* Dashboard */,
+				B1A4ED782EC3FE6B005289C0 /* Dasboard */,
+				B1C640082EC2CDF800E2CEE3 /* Presentation */,
+				B1DEE0AD2EC548D00084E1FF /* Details */,
+				B1DEE0AF2EC5490D0084E1FF /* Details */,
 			);
 			name = SpaceXInsights;
 			packageProductDependencies = (
 				B1962B6F2DECE4FB00BF73C6 /* YouTubeiOSPlayerHelper */,
 				B194716C2DEE6658002AE97B /* Alamofire */,
 				B194716F2DEE6868002AE97B /* RealmSwift */,
-				B194719B2DEE980A002AE97B /* FirebaseAuth */,
 			);
 			productName = SpaceXInsights;
 			productReference = B188D7CA2DE9606B00BD1C4F /* SpaceXInsights.app */;
@@ -156,7 +204,6 @@
 				B1962B6E2DECE4FB00BF73C6 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */,
 				B194716B2DEE6658002AE97B /* XCRemoteSwiftPackageReference "Alamofire" */,
 				B194716E2DEE6868002AE97B /* XCRemoteSwiftPackageReference "realm-swift" */,
-				B194719A2DEE980A002AE97B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B188D7CB2DE9606B00BD1C4F /* Products */;
@@ -424,14 +471,6 @@
 				kind = branch;
 			};
 		};
-		B194719A2DEE980A002AE97B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 11.13.0;
-			};
-		};
 		B1962B6E2DECE4FB00BF73C6 /* XCRemoteSwiftPackageReference "youtube-ios-player-helper" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/youtube/youtube-ios-player-helper";
@@ -452,11 +491,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = B194716E2DEE6868002AE97B /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
-		};
-		B194719B2DEE980A002AE97B /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B194719A2DEE980A002AE97B /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
 		};
 		B1962B6F2DECE4FB00BF73C6 /* YouTubeiOSPlayerHelper */ = {
 			isa = XCSwiftPackageProductDependency;

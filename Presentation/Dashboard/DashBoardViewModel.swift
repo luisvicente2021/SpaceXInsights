@@ -6,6 +6,74 @@
 //
 
 import Foundation
+import SwiftUI
+
+@MainActor
+class DashboardViewModel: ObservableObject {
+    @Published var launches: [LaunchViewData] = []
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String?
+
+    private let fetchUseCase: FetchDashboardItemsUseCase
+
+    init(fetchUseCase: FetchDashboardItemsUseCase) {
+        self.fetchUseCase = fetchUseCase
+    }
+
+    func loadLaunches() async {
+        isLoading = true
+        defer { isLoading = false }
+
+        do {
+            let entities = try await fetchUseCase.execute()
+            self.launches = entities.map { LaunchViewData(entity: $0) }
+        } catch {
+            errorMessage = "No se pudo cargar los lanzamientos."
+            print(error)
+        }
+    }
+}
+
+
+struct LaunchViewData: Identifiable {
+    let id: Int
+    let missionName: String
+    let details: String
+    let missionPatch: String?
+    
+    init(entity: SpaceXEntity) {
+        self.id = entity.flightNumber
+        self.missionName = entity.missionName
+        self.details = entity.details ?? "No details available"
+        self.missionPatch = entity.links?.missionPatchSmall
+    }
+}
+
+struct LaunchDetailsViewData: Identifiable {
+    let id: Int
+    let flightNumber: String
+    let launchSiteText: String
+    let launchSiteName: String
+    let rocketName: String
+    let rocketType: String
+    let flickrImages: [String]
+    let youtubeID: String
+    let articleLink: String
+    
+    init(entity: SpaceXEntity) {
+        self.id = entity.flightNumber
+        self.flightNumber = entity.details!
+        self.launchSiteText = ""
+        self.launchSiteName = ""
+        self.rocketName = ""
+        self.rocketType = ""
+        self.flickrImages = entity.links!.flickrImages
+        self.youtubeID = entity.links!.youtubeID
+        self.articleLink = (entity.links?.articleLink)!
+        
+    }
+}
+/*
 
 final class SpaceXViewModel {
     
@@ -105,3 +173,5 @@ final class SpaceXViewModel {
         return ""
     }
 }
+
+*/

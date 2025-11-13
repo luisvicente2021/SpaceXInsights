@@ -6,14 +6,16 @@
 //
 
 import SwiftUI
-import FirebaseAuth
-import SwiftUI
 
 struct LoginView: View {
-    @ObservedObject var viewModel: AuthViewModel
+
+    @StateObject var viewModel: LoginViewModel
     var onLoginSuccess: (() -> Void)?
     var strings = Strings()
     let spaceship = "spaceship"
+    @State private var email = ""
+    @State private var password = ""
+    
 
     var body: some View {
         ZStack {
@@ -24,34 +26,37 @@ struct LoginView: View {
                     .frame(width: 120, height: 120)
                     .padding(.bottom, 24)
                 
-                TextField(strings.emailPlaceholder, text: $viewModel.email)
+                TextField(strings.emailPlaceholder, text: $email)
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                     .textInputAutocapitalization(.never)
                     .disableAutocorrection(true)
-                    .onChange(of: viewModel.email) { newValue in
-                        viewModel.email = newValue.lowercased()
+                    .onChange(of: email) { newValue in
+                        email = newValue.lowercased()
                     }
                     .padding()
                     .frame(height: 56)
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
 
-                SecureField(strings.passwordPlaceholder, text: $viewModel.password)
+                SecureField(strings.passwordPlaceholder, text: $password)
                     .padding()
                     .frame(height: 56)
                     .background(Color(.systemGray6))
                     .cornerRadius(8)
 
-                if let error = viewModel.errorMessage {
+              /*  if let error = viewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
                         .font(.footnote)
-                }
+                }*/
 
                 Button(action: {
-                    viewModel.login {
-                        onLoginSuccess?()
+                    
+                    print("Email antes de login:", email)
+                        print("Password antes de login:", password)
+                    Task {
+                        await viewModel.login(email: email, password: password)
                     }
                 }) {
                     Text(strings.loginButtonTitle)
@@ -61,20 +66,20 @@ struct LoginView: View {
                         .background(Color.blue)
                         .cornerRadius(8)
                 }
-                .disabled(viewModel.isLoading)
+               // .disabled(viewModel.isLoading)
                 
                 Spacer()
             }
             .padding()
             
-            if viewModel.isLoading {
+          /*/  if viewModel.isLoading {
                 Color.black.opacity(0.3)
                     .edgesIgnoringSafeArea(.all)
                 
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
                     .scaleEffect(1.5)
-            }
+            }*/
         }
     }
 }

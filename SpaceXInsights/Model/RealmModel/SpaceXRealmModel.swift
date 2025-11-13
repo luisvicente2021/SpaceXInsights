@@ -4,7 +4,7 @@
 //
 //  Created by luisr on 02/06/25.
 //
-
+/*
 import Foundation
 import RealmSwift
 
@@ -43,3 +43,4 @@ extension SpaceXRealmModel {
         
     }
 }
+*/
