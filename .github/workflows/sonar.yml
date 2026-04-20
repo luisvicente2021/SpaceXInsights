@@ -6,12 +6,21 @@ on:
 
 jobs:
   sonar:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest # Cambiado de ubuntu a macos
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
+      - name: Build for SonarCloud
+        # Generamos el log de compilación que Sonar necesita para Swift
+        run: |
+          xcodebuild clean build \
+            -project SpaceXInsights.xcodeproj \
+            -scheme SpaceXInsights \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath ./DerivedData | tee xcodebuild.log
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
@@ -22,4 +31,6 @@ jobs:
             -Dsonar.projectKey=luisvicente2021_SpaceXInsights
             -Dsonar.organization=luisvicente2021
             -Dsonar.sources=.
+            -Dsonar.swift.compiler_logpath=xcodebuild.log
+            -Dsonar.exclusions=**/DerivedData/**,**/*.plist,**/Assets.xcassets/**
             -Dsonar.verbose=true
