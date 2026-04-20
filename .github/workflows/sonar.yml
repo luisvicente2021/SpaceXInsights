@@ -6,15 +6,19 @@ on:
 
 jobs:
   sonar:
-    runs-on: macos-latest # Cambiado de ubuntu a macos
+    runs-on: macos-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
+      # 1. Instalar el Sonar Scanner manualmente en macOS
+      - name: Install SonarScanner
+        run: brew install sonar-scanner
+
+      # 2. Compilar el proyecto para generar el log
       - name: Build for SonarCloud
-        # Generamos el log de compilación que Sonar necesita para Swift
         run: |
           xcodebuild clean build \
             -project SpaceXInsights.xcodeproj \
@@ -22,15 +26,16 @@ jobs:
             -destination 'generic/platform=iOS' \
             -derivedDataPath ./DerivedData | tee xcodebuild.log
 
-      - name: SonarCloud Scan
-        uses: SonarSource/sonarcloud-github-action@v2
+      # 3. Ejecutar el Scanner usando el binario de brew (No la acción de Docker)
+      - name: Run SonarScanner
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.projectKey=luisvicente2021_SpaceXInsights
-            -Dsonar.organization=luisvicente2021
-            -Dsonar.sources=.
-            -Dsonar.swift.compiler_logpath=xcodebuild.log
-            -Dsonar.exclusions=**/DerivedData/**,**/*.plist,**/Assets.xcassets/**
+        run: |
+          sonar-scanner \
+            -Dsonar.projectKey=luisvicente2021_SpaceXInsights \
+            -Dsonar.organization=luisvicente2021 \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=https://sonarcloud.io \
+            -Dsonar.swift.compiler_logpath=xcodebuild.log \
+            -Dsonar.exclusions=**/DerivedData/**,**/*.plist,**/Assets.xcassets/** \
             -Dsonar.verbose=true
