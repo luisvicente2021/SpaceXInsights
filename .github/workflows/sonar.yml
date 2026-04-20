@@ -1,0 +1,21 @@
+name: SonarCloud Analysis
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        with:
+          args: >
+            -Dsonar.projectKey=${{luisvicente2021_SpaceXInsights }}
+            -Dsonar.organization=${{luisvicente2021}}
