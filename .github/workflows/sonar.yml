@@ -21,3 +21,5 @@ jobs:
           args: >
             -Dsonar.projectKey=luisvicente2021_SpaceXInsights
             -Dsonar.organization=luisvicente2021
+            -Dsonar.sources=.
+            -Dsonar.verbose=true
